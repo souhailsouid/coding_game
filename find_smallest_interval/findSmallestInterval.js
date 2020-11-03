@@ -1,30 +1,46 @@
-function findSmallestInterval(numbers) {
-    numbers.sort()
-    const findInterval = []
-    // [2,8, 7] [2,7,8]  [2,7] [ 7, 8]
-    const min = Math.min.apply(null, numbers)
-    const max = Math.max.apply(null, numbers)
-    const nextArray =  numbers.filter((number) => number !== numbers[0])
-    console.log(nextArray)
-    numbers.map((number) => number ).forEach((previousNumber, index) => {
-        nextArray.forEach((nextNumbers,index) => {
-            if (previousNumber !== nextNumbers && previousNumber < nextNumbers ){
-                const interval = nextNumbers - previousNumber  
-                    findInterval.push([previousNumber, nextNumbers])
-                
-            }
-        })
+function sortArray(array) {
+    array.sort( (a, b) => {
+        return a - b;
     })
-
-     
-
-  return findInterval
-    // numbers.pop() - numbers.shift()
-        
+    return array
 }
-// return data.reduce(
-//     (unique, item) => unique.includes(item) ? unique : [...unique, item], []
-// ) 
+function createIntervals(numbers) {
+    const createIntervals = []
+    numbers = sortArray(numbers)
+    for (let i = 0; i < numbers.length - 1; i++) {
+        const nextNumber = numbers[i + 1]
+        const createAnInterval = [numbers[i], nextNumber]
+        createIntervals.push(createAnInterval)
+    }
+    return createIntervals
+}
+function calculateEachIntervals(numbers) {
+    const array = createIntervals(numbers)
+    const calculateEachIntervals = []
+    for (let i = 0; i < array.length; i++) {
+        calculateEachIntervals.push(array[i][1] - array[i][0] )
+    }
+    return calculateEachIntervals
+}
+
+function findIndexOfSmallestValueInArray(numbers) {
+    const array = calculateEachIntervals(numbers)
+    Array.min = function( numbers ){
+        return Math.min.apply( Math, numbers );
+    };
+    smallestValue = Array.min(array) 
+   return array.indexOf(smallestValue) 
+}
+
+function findSmallestInterval(numbers) {
+    return createIntervals(numbers)[findIndexOfSmallestValueInArray(numbers)]
+
+}
+
+exports.sortArray = sortArray
+exports.createIntervals = createIntervals
+exports.calculateEachIntervals = calculateEachIntervals
+exports.findIndexOfSmallestValueInArray = findIndexOfSmallestValueInArray
+// exports.findIndexOfSmallestValue = findIndexOfSmallestValue
 exports.findSmallestInterval = findSmallestInterval
-// const numbers = [1,6,4]
-// [1,6]
+
